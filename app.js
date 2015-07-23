@@ -33,7 +33,7 @@ app.config(['$routeProvider', '$httpProvider', '$documeeApiProvider',
             };
         });
 
-        $documeeApiProvider.setHostAddress("http://localhost:8000/");
+        $documeeApiProvider.setHostAddress("http://documee-protoype.herokuapp.com/");
     }
 ]);
 
