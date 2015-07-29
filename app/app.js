@@ -1,16 +1,16 @@
-var app = angular.module('documee_admin', ['ngCookies', 'ui.bootstrap', 'ui.router', 'ngRoute', 'angularMoment', 'authentication', 'consumers', 'DocumeeServices']);
+var app = angular.module('documee_admin', ['ngCookies', 'ui.bootstrap', 'ui.router', 'ngRoute', 'angularMoment', 'services', 'controllers']);
 
 
 app.config(['$routeProvider', '$httpProvider', '$documeeApiProvider',
     function($routeProvider, $httpProvider, $documeeApiProvider) {
         $routeProvider
             .when('/login', {
-                templateUrl: 'authentication/views/login.html',
-                controller: 'authentication.LoginController'
+                templateUrl: 'app/templates/login.html',
+                controller: 'LoginController'
             })
             .when('/consumers', {
-                templateUrl: 'consumers/views/consumers-table.html',
-                controller: 'consumers.MainController'
+                templateUrl: 'app/templates/consumers-table.html',
+                controller: 'ConsumersController'
             })
             .otherwise({redirectTo: '/consumers'});
 
@@ -39,7 +39,7 @@ app.config(['$routeProvider', '$httpProvider', '$documeeApiProvider',
 
 
 app.run(
-    function ($log, $rootScope, $location, $cookies, $http, AuthenticationService) {
+    function ($log, $rootScope, $location, $cookies) {
         // keep user logged in after page refresh
         //AuthenticationService.restoreCredentials();
         $log.debug("Stored cookies are: " + JSON.stringify($cookies.getAll()));
