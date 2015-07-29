@@ -75,6 +75,7 @@ module.exports = function (grunt) {
                     'jshint',
                     'copy:index',
                     'copy:templates',
+                    'copy:fonts',
                     'useminPrepare',
                     'concat:generated',
                     'cssmin:generated',
@@ -91,6 +92,7 @@ module.exports = function (grunt) {
                     'jshint',
                     'copy:index',
                     'copy:templates',
+                    'copy:fonts',
                     'useminPrepare',
                     'concat:generated',
                     'cssmin:generated',
@@ -124,6 +126,22 @@ module.exports = function (grunt) {
                 src: '**/*',
                 dest: 'dist/templates/',
                 expand: true
+            },
+            fonts: {
+                files: [
+                    {
+                        expand: true,
+                        dot: true,
+                        cwd: 'bower_components/bootstrap/dist',
+                        src: ['fonts/*.*'],
+                        dest: 'dist/'
+                    }, {
+                        expand: true,
+                        dot: true,
+                        cwd: 'bower_components/font-awesome',
+                        src: ['fonts/*.*'],
+                        dest: 'dist/'
+                    }]
             }
         }
     });
@@ -152,6 +170,7 @@ module.exports = function (grunt) {
         'jshint',
         'copy:index',
         'copy:templates',
+        'copy:fonts',
         'useminPrepare',
         'concat:generated',
         'cssmin:generated',
