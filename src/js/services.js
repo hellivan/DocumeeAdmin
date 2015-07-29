@@ -1,5 +1,5 @@
 angular.module('services', [])
-    .factory("$authentication", function($http, $rootScope, $documeeApi){
+    .factory("$authentication", ['$http', '$rootScope', '$documeeApi', function($http, $rootScope, $documeeApi){
         var service = {};
 
         service.login = function (username, password, callback){
@@ -26,9 +26,9 @@ angular.module('services', [])
         };
 
         return service;
-    })
+    }])
 
-    .factory('$consumers', function($http, $documeeApi){
+    .factory('$consumers', ['$http', '$documeeApi', function($http, $documeeApi){
         var service = {};
 
 
@@ -53,9 +53,9 @@ angular.module('services', [])
         };
 
         return service;
-    })
+    }])
 
-    .provider('$documeeApi', function(){
+    .provider('$documeeApi', [function(){
 
         var apiHost;
 
@@ -70,4 +70,4 @@ angular.module('services', [])
                 };
             }
         };
-    });
+    }]);

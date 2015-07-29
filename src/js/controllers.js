@@ -1,5 +1,5 @@
 angular.module('controllers', ['services', 'ui.bootstrap'])
-    .controller("LoginController", function ($log, $scope, $rootScope, $location, $authentication) {
+    .controller("LoginController", ['$log', '$scope', '$rootScope', '$location', '$authentication', function ($log, $scope, $rootScope, $location, $authentication) {
         // reset login status
         $authentication.clearCredentials();
 
@@ -13,8 +13,8 @@ angular.module('controllers', ['services', 'ui.bootstrap'])
             });
         };
         $log.debug("Loaded LoginController");
-    })
-    .controller("ConsumersController", function ($log, $scope, $consumers){
+    }])
+    .controller("ConsumersController", ['$log', '$scope', '$consumers', function ($log, $scope, $consumers){
         function update(){
             $consumers.get(function(err, consumers){
                 if(err) {throw err;}
@@ -32,4 +32,4 @@ angular.module('controllers', ['services', 'ui.bootstrap'])
         update();
 
         $log.debug("Loaded ConsumersController");
-    });
+    }]);

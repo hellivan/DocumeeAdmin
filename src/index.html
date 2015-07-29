@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="documee_admin">
+<head>
+    <meta charset="UTF-8">
+    <title>Documee Admin</title>
+
+    <!-- build:css css/style.min.css -->
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="style.css">
+    <!-- endbuild -->
+
+    <!-- build:js js/app.min.js -->
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+    <script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="../bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="../bower_components/angular-route/angular-route.js"></script>
+    <script src="../bower_components/momentjs/moment.js"></script>
+    <script src="../bower_components/angular-moment/angular-moment.js"></script>
+    <script src="../bower_components/angular-base64/angular-base64.js"></script>
+
+
+    <script src="js/services.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/app.js"></script>
+    <!-- endbuild -->
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#/">Documee</a>
+            </div>
+
+            <ul ng-if="globals.logged_in" class="nav navbar-nav navbar-right">
+                <li><a href="#/login">Logout</a></li>
+            </ul>
+
+        </div>
+    </nav>
+    <ng-view></ng-view>
+
+</body>
+</html>

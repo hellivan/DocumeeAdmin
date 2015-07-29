@@ -1,135 +1,131 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
     grunt.initConfig({
-	pkg: grunt.file.readJSON('package.json'),
-	
-	bower: {
-	    install: {
-		options: {
-		    install: true,
-		    copy: false,
-		    targetDir: 'dist/bower_components',
-		    cleanTargetDir: true
-		}
-	    }
-	},
+        pkg: grunt.file.readJSON('package.json'),
 
-	uglify: {
-	    dist: {
-		files: {
-		    'dist/app.js': [ 'dist/app.js' ]
-		},
-		options: {
-		    mangle: false
-		}
-	    }
-	},
-	
-	html2js: {
-	    options:{
-		module: 'templates',
-		base: 'app',
-		singleModule: true
-	    },
-	    dist: {
-		src: [ 'app/templates/*.html' ],
-		dest: 'tmp/templates.js'
-	    }
-	},
-	
-	clean: {
-	    temp: {
-		src: [ 'tmp' ]
-	    },
-	    
-	    dist: {
-		src: [ 'dist' ]
-	    }
-	},
+        bower: {
+            install: {
+                options: {
+                    install: true,
+                    copy: false,
+                    targetDir: 'dist/bower_components',
+                    cleanTargetDir: true
+                }
+            }
+        },
 
-	concat: {
-	    options: {
-		separator: ';'
-	    },
-	    dist: {
-		src: [ 'tmp/bower_concat.js', 'app/*.js', 'tmp/templates.js' ],
-		dest: 'dist/app.js'
-	    }
-	},
+        uglify: {
+            options: {
+                mangle: false
+            }
+        },
 
-	jshint: {
-	    all: [ 'Gruntfile.js', 'app/*.js', 'app/**/*.js' ]
-	},
-	
-	compress: {
-	    dist: {
-		options: {
-		    archive: 'dist/<%= pkg.name %>-<%= pkg.version %>.zip'
-		},
-		files: [{
-		    src: [ 'index.html' ],
-		    dest: '/'
-		}, {
-		    src: [ 'dist/**' ],
-		    dest: 'dist/'
-		}, {
-		    src: [ 'assets/**' ],
-		    dest: 'assets/'
-		}, {
-		    src: [ 'libs/**' ],
-		    dest: 'libs/'
-		}]
-	    }
-	},
+        html2js: {
+            options: {
+                module: 'templates',
+                base: 'app',
+                singleModule: true
+            },
+            dist: {
+                src: ['src/templates/*.html'],
+                dest: 'tmp/templates.js'
+            }
+        },
 
-	connect: {
-	    server: {
-		options: {
-		    hostname: 'localhost',
-		    port: 8080
-		}
-	    }
-	},
+        clean: {
+            dist: {
+                src: ['dist']
+            }
+        },
 
-	watch: {
-	    dev: {
-		files: [ 'Gruntfile.js', 'app/*.js', '*.html' ],
-		tasks: [ 'jshint', 'html2js:dist', 'bower_concat:all', 'concat:dist', 'clean:temp' ],
-		options: {
-		    atBegin: true
-		}
-	    },
-	    min: {
-		files: [ 'Gruntfile.js', 'app/*.js', '*.html' ],
-		tasks: [ 'jshint', 'html2js:dist', 'bower_concat:all', 'concat:dist', 'clean:temp', 'uglify:dist' ],
-		options: {
-		    atBegin: true
-		}
-	    }
-	},
+        concat: {
+            options: {
+                separator: ';'
+            }
+        },
 
-	bower_concat: {
-	    all: {
-		dest: 'tmp/bower_concat.js'
-	    }
-	},
+        jshint: {
+            all: ['Gruntfile.js', 'src/*.js', 'src/**/*.js']
+        },
 
-	useminPrepare: {
-	    html: 'index.html',
-	    options: {
-		dest: 'dist'
-	    }
-	},
-	
-	usemin: {
-	    html: ['build/index.html']	    
-	},
+        compress: {
+            dist: {
+                options: {
+                    archive: 'dist/<%= pkg.name %>-<%= pkg.version %>.zip'
+                },
+                files: [
+                    {expand: true, cwd: 'dist/', src: ['**'], dest: '.'}
+                ]
+            }
+        },
 
-	copy: {
-	    index: {
-		src: 'index.html',
-		dest: 'build/index.html'
-	    }
-	}
+        connect: {
+            server: {
+                options: {
+                    hostname: 'localhost',
+                    port: 8080,
+                    base: 'dist'
+                }
+            }
+        },
+
+        watch: {
+            dev: {
+                files: ['Gruntfile.js', 'src/**/*.js', 'src/**/*.html', 'src/**/*.css'],
+                tasks: [
+                    'jshint',
+                    'copy:index',
+                    'copy:templates',
+                    'useminPrepare',
+                    'concat:generated',
+                    'cssmin:generated',
+                    'uglify:generated',
+                    'usemin'
+                ],
+                options: {
+                    atBegin: true
+                }
+            },
+            min: {
+                files: ['Gruntfile.js', 'src/**/*.js', 'src/**/*.html', 'src/**/*.css'],
+                tasks: [
+                    'jshint',
+                    'copy:index',
+                    'copy:templates',
+                    'useminPrepare',
+                    'concat:generated',
+                    'cssmin:generated',
+                    'uglify:generated',
+                    'usemin'
+                ],
+                options: {
+                    atBegin: true
+                }
+            }
+        },
+
+        useminPrepare: {
+            html: 'src/index.html',
+            options: {
+                dest: 'dist'
+            }
+        },
+
+        usemin: {
+            html: ['dist/index.html']
+        },
+
+        copy: {
+            index: {
+                src: 'src/index.html',
+                dest: 'dist/index.html'
+            },
+            templates: {
+                cwd: 'src/templates/',
+                src: '**/*',
+                dest: 'dist/templates/',
+                expand: true
+            }
+        }
     });
 
 
@@ -142,18 +138,25 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-html2js');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-bower-task');
-    grunt.loadNpmTasks('grunt-bower-concat');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-usemin');
-    
-    grunt.registerTask('dev', [ 'bower', 'bower_concat:all', 'connect:server', 'watch:dev' ]);
-    grunt.registerTask('check', [ 'bower', 'jshint' ]);
-    grunt.registerTask('minified', [ 'bower', 'connect:server', 'watch:min' ]);
-    grunt.registerTask('compile', [ 'bower', 'jshint', 'html2js:dist', 'bower_concat:all', 'concat:dist', 'uglify:dist',
-				    'clean:temp' ]);
-    grunt.registerTask('package', [ 'bower', 'jshint', 'html2js:dist', 'bower_concat:all', 'concat:dist', 'uglify:dist',
-				    'clean:temp', 'compress:dist' ]);
 
-    grunt.registerTask('new' , ['copy:index', 'useminPrepare', 'concat', 'cssmin', 'uglify','usemin']);
+    grunt.registerTask('dev', ['bower', 'connect:server', 'watch:dev']);
+
+    grunt.registerTask('min', ['bower', 'connect:server', 'watch:min']);
+
+    grunt.registerTask('package', [
+        'clean:dist',
+        'bower',
+        'jshint',
+        'copy:index',
+        'copy:templates',
+        'useminPrepare',
+        'concat:generated',
+        'cssmin:generated',
+        'uglify:generated',
+        'usemin',
+        'compress:dist'
+    ]);
 };
