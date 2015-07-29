@@ -1,15 +1,12 @@
-var app = angular.module('documee_admin', ['ngCookies', 'ui.bootstrap', 'ui.router', 'ngRoute', 'angularMoment', 'services', 'controllers']);
-
-
-app.config(['$routeProvider', '$httpProvider', '$documeeApiProvider',
-    function($routeProvider, $httpProvider, $documeeApiProvider) {
+angular.module('documee_admin', ['ngCookies', 'ui.bootstrap', 'ui.router', 'ngRoute', 'angularMoment', 'services', 'controllers', 'templates'])
+    .config(['$routeProvider', '$httpProvider', '$documeeApiProvider', function($routeProvider, $httpProvider, $documeeApiProvider) {
         $routeProvider
             .when('/login', {
-                templateUrl: 'app/templates/login.html',
+                templateUrl: 'templates/login.html',
                 controller: 'LoginController'
             })
             .when('/consumers', {
-                templateUrl: 'app/templates/consumers-table.html',
+                templateUrl: 'templates/consumers-table.html',
                 controller: 'ConsumersController'
             })
             .otherwise({redirectTo: '/consumers'});
@@ -34,12 +31,8 @@ app.config(['$routeProvider', '$httpProvider', '$documeeApiProvider',
         });
 
         $documeeApiProvider.setHostAddress("http://documee-protoype.herokuapp.com/");
-    }
-]);
-
-
-app.run(
-    function ($log, $rootScope, $location, $cookies) {
+    }])
+    .run(function ($log, $rootScope, $location, $cookies) {
         // keep user logged in after page refresh
         //AuthenticationService.restoreCredentials();
         $log.debug("Stored cookies are: " + JSON.stringify($cookies.getAll()));

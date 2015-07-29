@@ -1,10 +1,5 @@
-/**
- * Created by ivan on 7/29/15.
- */
-var appServices = angular.module('services', []);
-
-appServices.factory("$authentication",
-    function($http, $rootScope, $documeeApi){
+angular.module('services', [])
+    .factory("$authentication", function($http, $rootScope, $documeeApi){
         var service = {};
 
         service.login = function (username, password, callback){
@@ -31,10 +26,9 @@ appServices.factory("$authentication",
         };
 
         return service;
-    });
+    })
 
-appServices.factory('$consumers',
-    function($http, $documeeApi){
+    .factory('$consumers', function($http, $documeeApi){
         var service = {};
 
 
@@ -59,10 +53,9 @@ appServices.factory('$consumers',
         };
 
         return service;
-    });
+    })
 
-appServices.provider('$documeeApi',
-    function(){
+    .provider('$documeeApi', function(){
 
         var apiHost;
 
